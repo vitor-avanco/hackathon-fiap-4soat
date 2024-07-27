@@ -40,7 +40,6 @@
         "reflect-metadata": "^0.1.13",
         "rxjs": "^7.8.1",
         "serverless-http": "^3.2.0",
-        "serverless-webpack": "^5.14.1",
         "typeorm": "^0.3.20"
     },
     "devDependencies": {
@@ -69,6 +68,7 @@
         "serverless-optimize": "^1.0.0",
         "serverless-plugin-optimize": "^4.2.1-rc.1",
         "serverless-plugin-typescript": "^2.1.5",
+        "serverless-webpack": "^5.14.1",
         "source-map-support": "^0.5.21",
         "supertest": "^6.3.3",
         "ts-jest": "^29.1.0",
