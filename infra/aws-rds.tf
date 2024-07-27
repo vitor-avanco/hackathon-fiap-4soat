@@ -1,6 +1,6 @@
 data "aws_vpc" "fiap" {
   tags = {
-    "Name" = "fiap-vpc"
+    "Name" = "fiapvpc"
   }
 }
 
@@ -10,8 +10,8 @@ data "aws_subnets" "private" {
   }
 }
 
-resource "aws_db_subnet_group" "fiap_private_subnets" {
-  name       = "fiap-private-subnets"
+resource "aws_db_subnet_group" "fiapvpc_subnets" {
+  name       = "fiapvpc-private-subnets"
   subnet_ids = data.aws_subnets.private.ids
 }
 
@@ -30,7 +30,7 @@ resource "aws_db_instance" "health_api" {
   backup_retention_period = 0
   apply_immediately       = true
 
-  db_subnet_group_name = aws_db_subnet_group.fiap_private_subnets.name
+  db_subnet_group_name = aws_db_subnet_group.fiapvpc_subnets.name
   vpc_security_group_ids = [
     aws_security_group.allow_same_vpc.id
   ]
