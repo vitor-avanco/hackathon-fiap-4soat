@@ -29,17 +29,17 @@ jobs:
           terraform_version: 1.6.3
 
       - name: Terraform init
-        working-directory: infra/rds
+        working-directory: infra
         run: |
           terraform init
 
       - name: Terraform validate
-        working-directory: infra/rds
+        working-directory: infra
         run: |
           terraform validate -no-color
 
       - name: Terraform plan
-        working-directory: infra/rds
+        working-directory: infra
         run: |
           terraform plan -no-color
 
@@ -66,16 +66,16 @@ jobs:
           terraform_version: 1.6.3
 
       - name: Terraform init
-        working-directory: infra/rds
+        working-directory: infra
         run: |
           terraform init
 
       - name: Terraform apply
-        working-directory: infra/rds
+        working-directory: infra
         run: |
           terraform apply -auto-approve
 
       - name: Terraform output
-        working-directory: infra/rds
+        working-directory: infra
         run: |
           terraform output
