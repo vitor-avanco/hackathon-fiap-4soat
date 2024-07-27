@@ -4,7 +4,6 @@ import { Repository } from "typeorm";
 import { ConsultaEntity } from "../entities/consulta.entity";
 import { ConsultaDTO } from "../dto/consulta.dto";
 import { ConsultaStatus } from "../enum/consulta.enum";
-import { AgendaEntity } from "src/agenda/entities/agenda.entity";
 import { AgendaModel } from "src/agenda/model/agenda.model";
 import { ConsultalHeper } from "../helper/consulta.helper";
 

@@ -1,4 +1,4 @@
-import { IsOptional, IsString, IsNumber, Min } from "class-validator";
+import { IsOptional, IsNumber } from "class-validator";
 
 export class FiltroDTO {
     @IsOptional()

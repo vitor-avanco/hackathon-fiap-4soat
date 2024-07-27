@@ -13,6 +13,6 @@ export class ConsultalHeper {
         const part1 = this.generateRandomString(3); // "wgs"
         const part2 = this.generateRandomString(4); // "zvip"
         const part3 = this.generateRandomString(3); // "zsk"
-        return 'https://meet.google.com/${part1}-${part2}-${part3}';
+        return `https://meet.google.com/${part1}-${part2}-${part3}`;
       }
 }

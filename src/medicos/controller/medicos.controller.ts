@@ -3,10 +3,8 @@ import {
     Inject,
     Get,
     Param,
-    ParseUUIDPipe,
     NotFoundException,
     Query,
-    Logger,
   } from '@nestjs/common';
 import { MedicosModel } from '../model/medicos.model';
 import { FiltroDTO } from '../dto/medicos.dto';

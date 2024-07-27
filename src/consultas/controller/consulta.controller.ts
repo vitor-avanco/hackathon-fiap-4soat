@@ -1,5 +1,5 @@
 import { Authorization, CognitoUser } from "@nestjs-cognito/auth";
-import { Controller, Inject, Post, Body, BadRequestException, Param, Get } from "@nestjs/common";
+import { Controller, Inject, Post, Param, Get } from "@nestjs/common";
 import { ConsultaDTO } from "../dto/consulta.dto";
 import { ConsultaModel } from "../model/consulta.model";
 import { ConsultaStatus } from "../enum/consulta.enum";
