@@ -1,0 +1,15 @@
+name: Terraform plan & apply
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    uses: vitor-avanco/fastfood-workflows/.github/workflows/terraform.yml@main
+    with:
+      aws-region: us-east-1
+      terraform-directory-path: infra/rds
+      terraform-version: 1.6.3
+    secrets: inherit
