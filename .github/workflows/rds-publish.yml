@@ -31,7 +31,7 @@ jobs:
       - name: Terraform init
         working-directory: infra
         run: |
-          terraform init -migrate-state
+          terraform init -reconfigure
 
       - name: Terraform validate
         working-directory: infra
