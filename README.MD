@@ -2,6 +2,8 @@
 
 Hackathon FIAP SOAT4
 
+[YOUTUBE-Video Explicativo](https://youtu.be/RvUqGe-pHng)
+
 ## Desenho de Arquitetura Cloud
 ![Diagrama de Arquitetura Cloud](./assets/cloud.jpg)
 
