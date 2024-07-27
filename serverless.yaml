@@ -7,6 +7,7 @@ service: hackathon-fiap-4soat
 plugins:
   - serverless-jetpack
   - serverless-offline
+  - serverless-optimize
 
 provider:
   name: aws

@@ -3,7 +3,6 @@ import { HttpModule } from '@nestjs/axios';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 import { CognitoAuthModule } from '@nestjs-cognito/auth';
-import { TerminusModule } from '@nestjs/terminus';
 import { MedicoEntity } from './medicos/entities/medicos.entity';
 import { MedicosController } from './medicos/controller/medicos.controller';
 import { MedicosModel } from './medicos/model/medicos.model';
@@ -19,7 +18,6 @@ import { ConsultaEntity } from './consultas/entities/consulta.entity';
   imports: [
     HttpModule,
     TypeOrmModule.forFeature([MedicoEntity, AgendaEntity, ConsultaEntity]),
-    TerminusModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
