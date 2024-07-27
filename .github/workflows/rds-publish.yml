@@ -5,11 +5,77 @@ on:
     branches:
       - main
 
+permissions:
+  id-token: write
+  contents: read
+  
 jobs:
-  terraform:
-    uses: vitor-avanco/fastfood-workflows/.github/workflows/terraform.yml@main
-    with:
-      aws-region: us-east-1
-      terraform-directory-path: infra/rds
-      terraform-version: 1.6.3
-    secrets: inherit
+  terraform-plan:
+    name: Terraform plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::886790807566:role/pipeline
+          aws-region: us-east-1
+
+      - name: Terraform setup
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.3
+
+      - name: Terraform init
+        working-directory: infra/rds
+        run: |
+          terraform init
+
+      - name: Terraform validate
+        working-directory: infra/rds
+        run: |
+          terraform validate -no-color
+
+      - name: Terraform plan
+        working-directory: infra/rds
+        run: |
+          terraform plan -no-color
+
+
+  terraform-apply:
+    name: Terraform apply
+    needs:
+      - terraform-plan
+    environment: production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::886790807566:role/pipeline
+          aws-region: us-east-1
+
+      - name: Terraform setup
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.3
+
+      - name: Terraform init
+        working-directory: infra/rds
+        run: |
+          terraform init
+
+      - name: Terraform apply
+        working-directory: infra/rds
+        run: |
+          terraform apply -auto-approve
+
+      - name: Terraform output
+        working-directory: infra/rds
+        run: |
+          terraform output
