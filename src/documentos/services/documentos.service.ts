@@ -5,7 +5,7 @@ import {
 } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { CreateDocumentoDto, UpdateDocumentoDto } from "../dto/documentos.dto";
+import { CreateDocumentoDto } from "../dto/documentos.dto";
 import { DocumentoModel } from "../model/documentos.model";
 import {
   GetObjectCommand,
@@ -13,7 +13,6 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class DocumentosService {
@@ -23,10 +22,11 @@ export class DocumentosService {
 
   constructor(
     @InjectRepository(DocumentoModel)
-    private readonly documentoRepository: Repository<DocumentoModel>
+    private readonly documentoRepository: Repository<DocumentoModel>,
   ) {
     this.bucketName = "documentos-pacientes-fiap-soat4";
-    this.bucket = "https://documentos-pacientes-fiap-soat4.s3.us-east-1.amazonaws.com";
+    this.bucket =
+      "https://documentos-pacientes-fiap-soat4.s3.us-east-1.amazonaws.com";
   }
 
   async create(
@@ -36,7 +36,6 @@ export class DocumentosService {
     fileName: string,
   ): Promise<DocumentoModel> {
     try {
-
       this.uploadFile(sub, fileBuffer, fileName);
 
       const fileUrl = await this.share(fileName, sub);
@@ -100,7 +99,6 @@ export class DocumentosService {
     });
 
     try {
-      
       let url: string;
       const response = await client.send(command);
       if (response) {
