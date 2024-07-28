@@ -1,20 +1,14 @@
 import { IsOptional, IsNumber } from "class-validator";
 
 export class FiltroDTO {
-    @IsOptional()
-    sort?: string;
+  @IsOptional()
+  especialidade?: string;
 
-    @IsOptional()
-    orderBy?: string;
-    
-    @IsOptional()
-    especialidade?: string;
+  @IsNumber()
+  @IsOptional()
+  avaliacao?: number;
 
-    @IsNumber()
-    @IsOptional()
-    avaliacao?: number;
-
-    @IsNumber()
-    @IsOptional()
-    distancia?: number;
+  @IsNumber()
+  @IsOptional()
+  distancia?: number;
 }

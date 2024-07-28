@@ -1,23 +1,19 @@
-import { IsString } from "class-validator";
 import { ConsultaStatus } from "../enum/consulta.enum";
 
 export class ConsultaDTO {
-    @IsString()
-    id: string;
+  id?: string;
+  medicoId: string;
+  pacienteNome: string;
+  pacienteDocumento: string;
+  pacienteEmail: string;
+  data: Date;
+  status: ConsultaStatus;
+  linkReuniao?: string;
+  justificativaCancelamento?: string;
+}
 
-    @IsString()
-    agendaId: string;
-
-    @IsString()
-    pacienteNome: string;
-
-    @IsString()
-    pacienteDocumento: string;
-
-    @IsString()
-    pacienteEmail: string;
-
-    status: ConsultaStatus;
-
-    linkConsultaOnline: string;
+export class UpdateConsultaDTO {
+  status?: ConsultaStatus;
+  linkReuniao?: string;
+  justificativaCancelamento?: string;
 }

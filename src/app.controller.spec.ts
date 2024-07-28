@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppController } from './app.controller';
+import { Test, TestingModule } from "@nestjs/testing";
+import { AppController } from "./app.controller";
 
-describe('AppController', () => {
+describe("AppController", () => {
   let appController: AppController;
 
   beforeEach(async () => {
@@ -12,9 +12,9 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe('getHello', () => {
+  describe("getHello", () => {
     it('should return "Ok"', () => {
-      expect(appController.getHello()).toBe('Ok');
+      expect(appController.getHello()).toBe("Ok");
     });
   });
 });

@@ -1,52 +1,46 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { ConsultaEntity } from "../entities/consulta.entity";
-import { ConsultaDTO } from "../dto/consulta.dto";
+import { MedicoModel } from "src/medicos/model/medico.model";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from "typeorm";
 import { ConsultaStatus } from "../enum/consulta.enum";
-import { AgendaModel } from "src/agenda/model/agenda.model";
-import { ConsultalHeper } from "../helper/consulta.helper";
 
-@Injectable()
+@Entity("consultas")
 export class ConsultaModel {
-    constructor(
-        private agenda: AgendaModel,
-        @InjectRepository(ConsultaEntity)
-        private readonly consulta: Repository<ConsultaEntity>,
-    ) {}
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
 
-    async salvar(consulta: ConsultaDTO): Promise<ConsultaDTO> {
+  @ManyToOne(() => MedicoModel, (medico) => medico.consultas)
+  medico: MedicoModel;
 
-        const agendaMedico = await this.agenda.buscarAgendamentoPorId(consulta.agendaId);
-        if(agendaMedico.agendaFechada){
-            throw new Error('Horario ja reservado');
-        }
+  @Column({ name: "paciente_nome", nullable: false })
+  pacienteNome: string;
 
-        // implementar agendamento
-        consulta.linkConsultaOnline = ConsultalHeper.generateMeetingUrl();
+  @Column({ name: "paciente_email", nullable: false })
+  pacienteEmail: string;
 
-        const response = this.consulta.create(consulta);
-        await this.consulta.save(response);
-        await this.agenda.atualizarStatusAgendamento(consulta.agendaId, true);
-        return response;
-    }
+  @Column({ name: "paciente_documento", nullable: false })
+  pacienteDocumento: string;
 
-    async alterarStatus(id: string, status: ConsultaStatus): Promise<void> {
-        await this.consulta.update(id, { status });
-    }
+  @Column()
+  data: Date;
 
-    async buscarConsultaPorId(idConsulta: string): Promise<any> {
-        const consulta = await this.consulta.findOne({
-            where: { id: idConsulta },
-          });
-        
-        if(!consulta){
-            throw new Error('Consulta nao encontrada'); 
-        }
-        const idAgenda = consulta.agendaId;
-        const agenda = await this.agenda.buscarAgendamentoPorId(idAgenda);
+  @Column({
+    type: "enum",
+    enum: ConsultaStatus,
+  })
+  status: ConsultaStatus;
 
-        return {...consulta, ...agenda};
-    }
+  @CreateDateColumn({ name: "criado_em" })
+  criadoEm: string;
 
+  @UpdateDateColumn({ name: "atualizado_em" })
+  atualizadoEm: string;
+
+  @Column()
+  linkReuniao: string;
 }

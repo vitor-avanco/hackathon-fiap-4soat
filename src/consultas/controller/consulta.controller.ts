@@ -1,48 +1,51 @@
 import { Authorization, CognitoUser } from "@nestjs-cognito/auth";
-import { Controller, Inject, Post, Param, Get } from "@nestjs/common";
-import { ConsultaDTO } from "../dto/consulta.dto";
-import { ConsultaModel } from "../model/consulta.model";
+import {
+  Controller,
+  Inject,
+  Post,
+  Param,
+  Get,
+  Body,
+  Patch,
+} from "@nestjs/common";
+import { ConsultaDTO, UpdateConsultaDTO } from "../dto/consulta.dto";
+import { ConsultasService } from "../service/consulta.service";
 import { ConsultaStatus } from "../enum/consulta.enum";
 
-@Controller('consulta')
+@Controller("consulta")
 export class ConsultaController {
-    constructor(
-        @Inject(ConsultaModel)
-        private readonly consulta: ConsultaModel
-    ) {}
+  constructor(
+    @Inject(ConsultasService)
+    private readonly consulta: ConsultasService,
+  ) {}
 
+  @Post()
+  @Authorization(["customers"])
+  async criar(
+    @CognitoUser("username") username: string,
+    @CognitoUser("name") name: string,
+    @CognitoUser("email") email: string,
+    @Body() consulta: ConsultaDTO,
+  ) {
+    consulta.pacienteDocumento = username;
+    consulta.pacienteNome = name;
+    consulta.pacienteEmail = email;
+    consulta.status = ConsultaStatus.AGUARDANDO_CONFIRMACAO_MEDICO;
+    return this.consulta.create(consulta);
+  }
 
-    @Post('/:id')
-    @Authorization(['customers'])
-    async criar(
-      @CognitoUser('username') username: string,
-      @CognitoUser('name') name: string,
-      @CognitoUser('email') email: string,
-      @Param('id') id: string
-    ){
-        const consulta = new ConsultaDTO();
-        consulta.agendaId = id;
-        consulta.pacienteDocumento = username;
-        consulta.pacienteNome = name;
-        consulta.pacienteEmail = email;
-        consulta.status = ConsultaStatus.AGENDADO;
-        return this.consulta.salvar(consulta);
-    }
+  @Patch("/:id")
+  @Authorization(["customers", "doctors"])
+  async alterar(
+    @Param("id") consultaId: string,
+    @Body() consulta: UpdateConsultaDTO,
+  ) {
+    return this.consulta.update(consultaId, consulta);
+  }
 
-    @Post('/:id/:status')
-    @Authorization(['customers'])
-    async alterarStatus(
-        @Param('id') consultaId: string,
-        @Param('status') status: ConsultaStatus,
-    ){
-        return this.consulta.alterarStatus(consultaId, status);
-    }
-
-    @Get('/:id')
-    @Authorization(['customers'])
-    async buscarConsultaPorId(
-        @Param('id') id: string
-    ){
-        return this.consulta.buscarConsultaPorId(id);
-    }
+  @Get("/:id")
+  @Authorization(["customers", "doctors"])
+  async buscarConsultaPorId(@Param("id") id: string) {
+    return this.consulta.findOne(id);
+  }
 }
