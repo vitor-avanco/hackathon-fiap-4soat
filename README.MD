@@ -18,7 +18,56 @@ Hackathon FIAP SOAT4
 ## Desenho Solução
 Foi adotado uma arquitetura Monolítica MVC por ser uma API BFF pequena, com pacotes separados para que uma quebra em microserviços seja fácil.
 
-![Solucao](./assets/mvc.jpg)
+Entidades:
+- Medicos
+- Consultas
+- Horarios
+- Prontuario
+- Documentos
+
+``` sh
+Paciente        Sistema          Médico
+   |                |              |
+   | Login(cpf, senha)           |
+   |------------------------------>|
+   |                |              |
+   |                |              |
+   | <--------------|              |
+   |                |              |
+   |BuscarMédicos(especialidade, distância, avaliação)|
+   |------------------------------>|
+   |                |              |
+   |                | ListaDeMédicos|
+   |<------------------------------|
+   |                |              |
+   |AgendarConsulta(médicoId, dataHora)|
+   |------------------------------>|
+   |                |              |
+   |                |--------------->|
+   |                |              |
+   |                | Login(CRM, senha)|
+   |                |<--------------|
+   |                |              |
+   |                |AceitarConsulta(consultaId)|
+   |                |<--------------|
+   |                |              |
+   |<------------------------------|
+   |                |              |
+   |EnviarDocumento(prontuarioId, documento)|
+   |------------------------------>|
+   |                |              |
+   |                | ConfirmaçãoDeEnvio|
+   |<------------------------------|
+   |                |              |
+   |CompartilharDocumento(prontuarioId, medicoId, documentoId, periodo)|
+   |------------------------------>|
+   |                |              |
+   |                | NotificaçãoDeCompartilhamento|
+   |                |--------------->|
+   |                |              |
+
+```
+
 
 Alguns beneficios da arquitetura apresentada:
 - Simplicidade e Facilidade de Desenvolvimento
